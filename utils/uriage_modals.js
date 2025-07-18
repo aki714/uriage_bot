@@ -1,5 +1,7 @@
 // utils/uriage_modals.js
 
+const { EmbedBuilder } = require('discord.js');
+
 module.exports = {
   async execute(interaction) {
     if (!interaction.isModalSubmit()) return false;
@@ -11,8 +13,8 @@ module.exports = {
       const card = interaction.fields.getTextInputValue('report_card');
       const expense = interaction.fields.getTextInputValue('report_expense');
 
-      // バリデーション: 数値であること
-      const isValid = [total, cash, card, expense].every(v => /^\d+$/.test(v));
+      // バリデーション: 数値であることの確認 (マイナスも許容)
+      const isValid = [total, cash, card, expense].every(v => /^-?\d+$/.test(v));
       if (!isValid) {
         return interaction.reply({
           content: '金額はすべて半角数字で入力してください。',
@@ -20,12 +22,37 @@ module.exports = {
         });
       }
 
-      const year = new Date().getFullYear();
+      // 文字列を数値に変換
+      const totalNum = parseInt(total, 10);
+      const cashNum = parseInt(cash, 10);
+      const cardNum = parseInt(card, 10);
+      const expenseNum = parseInt(expense, 10);
+
+      // 残金の計算
+      const balance = totalNum - cashNum - expenseNum;
+
+      // Embedメッセージを作成
+      const embed = new EmbedBuilder()
+        .setTitle('📈 売上報告')
+        .setColor(0x0099ff)
+        .setDescription(`${interaction.user} さんからの報告です。`)
+        .addFields(
+          { name: '日付', value: date, inline: true },
+          { name: '総売り', value: `¥${totalNum.toLocaleString()}`, inline: true },
+          { name: '現金', value: `¥${cashNum.toLocaleString()}`, inline: true },
+          { name: 'カード', value: `¥${cardNum.toLocaleString()}`, inline: true },
+          { name: '諸経費', value: `¥${expenseNum.toLocaleString()}`, inline: true },
+          { name: '残金', value: `¥${balance.toLocaleString()}`, inline: true }
+        )
+        .setTimestamp()
+        .setFooter({ text: `報告者: ${interaction.user.tag}` });
 
       await interaction.reply({
-        content: `✅ 売上報告を受け付けました。\n\n- 年: ${year}\n- 日付: ${date}\n- 総売り: ¥${total}\n- 現金: ¥${cash}\n- カード: ¥${card}\n- 諸経費: ¥${expense}`,
-        ephemeral: true,
+        content: `✅ <@${interaction.user.id}>さん、売上報告を受け付けました。`,
+        embeds: [embed],
       });
+
+      //新しく売上ボタンを設置
 
       return true;
     }
