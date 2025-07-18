@@ -34,6 +34,7 @@ for (const file of commandFiles) {
 
 // --- モーダルおよび編集ボタン処理 ---
 const modalHandler = require(path.join(__dirname, 'utils', 'uriage_modals.js'));
+const buttonHandler = require(path.join(__dirname, 'utils', 'uriage_buttons.js'));
 
 // --- 起動ログ ---
 client.once(Events.ClientReady, () => {
@@ -51,8 +52,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
       return;
     }
 
-    // 2. モーダルや編集ボタンなど（utils/uriage_modals.js に委譲）
-    await modalHandler.execute(interaction);
+    // 2. ボタン処理（sales_report など）モーダル処理（sales_report_modal など）
+    const buttonHandled = await buttonHandler.execute(interaction);
+    if (buttonHandled) return;
+    const modalHandled = await modalHandler.execute(interaction);
+    if (modalHandled) return;
 
     // 3. CSVメニュー処理（commands/uriage_csv.js に委譲）
     const csvHandler = client.commands.get('uriage_csv');

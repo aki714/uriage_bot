@@ -5,8 +5,8 @@ const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('売上報告設置')
-    .setDescription('売上報告用のEmbedメッセージを設置します'),
-  
+    .setDescription('売上報告用のEmbedメッセージを設置します(開発中)'),
+
   async execute(interaction) {
     // コマンド実行ログをターミナルに出力
     console.log(`[${new Date().toISOString()}] コマンド「${interaction.commandName}」がユーザー「${interaction.user.tag}」によって実行されました。`);
@@ -27,13 +27,9 @@ module.exports = {
 
     const buttons = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
-        .setCustomId('next_expense')
-        .setLabel('経費申請')
+        .setCustomId('sales_report')
+        .setLabel('売上報告')
         .setStyle(ButtonStyle.Primary),
-      new ButtonBuilder()
-        .setCustomId('edit_entry')
-        .setLabel('修正')
-        .setStyle(ButtonStyle.Secondary),
     );
 
     // フォローアップでEmbedメッセージとボタンを送信

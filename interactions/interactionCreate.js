@@ -1,13 +1,13 @@
 // interactions/interactionCreate.js
 
-const { 
-  Client, 
-  GatewayIntentBits, 
-  ModalBuilder, 
-  TextInputBuilder, 
-  TextInputStyle, 
-  ActionRowBuilder, 
-  ButtonBuilder, 
+const {
+  Client,
+  GatewayIntentBits,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ActionRowBuilder,
+  ButtonBuilder,
   ButtonStyle,
   StringSelectMenuBuilder,
   EmbedBuilder
