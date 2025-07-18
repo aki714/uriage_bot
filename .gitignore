@@ -3,6 +3,7 @@
 
 # npmのパッケージロックファイル
 package-lock.json
+node_modules
 
 # データフォルダを無視
 data/
