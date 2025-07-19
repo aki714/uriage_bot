@@ -1,6 +1,6 @@
 // utils/uriage_modals.js
 
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
   async execute(interaction) {
@@ -47,12 +47,20 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: `報告者: ${interaction.user.tag}` });
 
+      // 次の報告を促すための新しいボタンを作成
+      const newReportButton = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId('sales_report')
+          .setLabel('売上報告')
+          .setStyle(ButtonStyle.Primary), // 分かりやすいように緑色のボタンにします
+      );
+
       await interaction.reply({
         content: `✅ <@${interaction.user.id}>さん、売上報告を受け付けました。`,
         embeds: [embed],
+        components: [newReportButton], // 作成したボタンをメッセージに追加
       });
 
-      //新しく売上ボタンを設置
 
       return true;
     }
