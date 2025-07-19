@@ -14,7 +14,7 @@ const bucketName = 'uriage_csv';
  * @throws 保存失敗時に例外をスロー
  */
 async function saveSalesData(guildId, date, username, salesData) {
-  const filePath = `data/sales_reports/${guildId}/uriage-houkoku-${date}-${username}.json`;
+  const filePath = `data/${guildId}/uriage-houkoku-${date}-${username}.json`;
   const timestamp = new Date().toISOString().replace(/:/g, '-'); // ":" はファイル名NG
   const logPath = `logs/${guildId}/uriage-houkoku-${date}-${username}_${timestamp}.json`;
   const jsonString = JSON.stringify(salesData, null, 2);
