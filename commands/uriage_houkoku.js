@@ -12,7 +12,7 @@ module.exports = {
     console.log(`[${new Date().toISOString()}] コマンド「${interaction.commandName}」がユーザー「${interaction.user.tag}」によって実行されました。`);
 
     // 処理に時間がかかる場合に備え、応答の遅延を通知（エフェメラル＝本人だけに見える）
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: false });
 
     const embed = new EmbedBuilder()
       .setTitle('売上報告')
